@@ -1,0 +1,92 @@
+using System;
+using System.Collections.Generic;
+
+class Contact
+{
+    public string Name { get; set; }
+    public string PhoneNumber
+    {
+        get; set;
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, Contact> phoneBook = new Dictionary<string, Contact>();
+
+            while (true)
+            {
+                Console.WriteLine("Phonebook Menu:");
+                Console.WriteLine("1. Add a contact");
+                Console.WriteLine("2. Search for a contact");
+                Console.WriteLine("3. Delete a contact");
+                Console.WriteLine("4. Exit");
+                Console.Write("Enter your choice (1/2/3/4): ");
+
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        AddContact(phoneBook);
+                        break;
+                    case "2":
+                        SearchContact(phoneBook);
+                        break;
+                    case "3":
+                        DeleteContact(phoneBook);
+                        break;
+                    case "4":
+                        Console.WriteLine("All Good");
+                        return;
+                    default:
+                        Console.WriteLine("WHta is this. Put a number between 1 to 4");
+                        break;
+                }
+            }
+        }
+
+        static void AddContact(Dictionary<string, Contact> phoneBook)
+        {
+            Console.Write("Enter the name: ");
+            string name = Console.ReadLine();
+            Console.Write("Enter the phone number: ");
+            string phoneNumber = Console.ReadLine();
+            Contact contact = new Contact { Name = name, PhoneNumber = phoneNumber };
+            phoneBook[name] = contact;
+            Console.WriteLine("Contact added");
+        }
+
+        static void SearchContact(Dictionary<string, Contact> phoneBook)
+        {
+            Console.Write("Enter the name to search for: ");
+            string searchName = Console.ReadLine();
+            if (phoneBook.TryGetValue(searchName, out var contact))
+            {
+                Console.WriteLine($"Name: {contact.Name}, Phone Number: {contact.PhoneNumber}");
+            }
+            else
+            {
+                Console.WriteLine("Contact not found.");
+            }
+        }
+
+        static void DeleteContact(Dictionary<string, Contact> phoneBook)
+        {
+            Console.Write("Enter the name to delete: ");
+            string deleteName = Console.ReadLine();
+            if (phoneBook.ContainsKey(deleteName))
+            {
+                phoneBook.Remove(deleteName);
+                Console.WriteLine("Contact deleted successfully!");
+            }
+            else
+            {
+                Console.WriteLine("Contact not found.");
+            }
+        }
+    }
+
+
+
